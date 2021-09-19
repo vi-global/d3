@@ -23,13 +23,13 @@ function mapChart() {
 
     function chart(selection){
         var projection = d3.geoAlbersUsa()
-        .translate([width / 2, height / 2])
-        .scale(scale)
-        var path = d3.geoPath().projection(projection)
-
+            .translate([width / 2, height / 2])
+            .scale(scale)
+        var path = d3.geoPath()
+            .projection(projection)
         var svg  = selection.append('svg')
-        .attr('height', height)
-        .attr('width', width)
+            .attr('height', height)
+            .attr('width', width)
 
         //Then define the drag behavior
         var dragging = function(d) {
@@ -38,26 +38,22 @@ function mapChart() {
             //console.log(d3.event);
 
             //Get the current (pre-dragging) translation offset
-            var offset = projection.translate();
+            var offset = projection.translate()
 
             //Augment the offset, following the mouse movement
-            offset[0] += d3.event.dx;
-            offset[1] += d3.event.dy;
+            offset[0] += d3.event.dx
+            offset[1] += d3.event.dy
 
             //Update projection with new offset
-            projection.translate(offset);
+            projection.translate(offset)
 
             //Update all paths and circles
             svg.selectAll("path")
-                .attr("d", path);
+                .attr("d", path)
 
             svg.selectAll("circle")
-                .attr("cx", function(d) {
-                    return projection([d.lon, d.lat])[0];
-                })
-                .attr("cy", function(d) {
-                    return projection([d.lon, d.lat])[1];
-                });
+                .attr("cx", d => projection([d.lon, d.lat])[0])
+                .attr("cy", d => projection([d.lon, d.lat])[1])
 
         }
 
@@ -71,7 +67,15 @@ function mapChart() {
                 var map = svg.append("g")
                     .attr("id", "map")
                     .call(drag);  //Bind the dragging behavior
-                        
+                    
+                //Create a new, invisible background rect to catch drag events
+                map.append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", width)
+                    .attr("height", height)
+                    .attr("opacity", 0);
+                                            
                 map.append("g")
                     .selectAll("path")
                     .data(features)
@@ -87,21 +91,15 @@ function mapChart() {
                     .data(pinData)
                     .enter()
                     .append("circle")
-                    .attr("cx", function(d) {
-                    return projection([d.lon, d.lat])[0];
-                    })
-                    .attr("cy", function(d) {
-                    return projection([d.lon, d.lat])[1];
-                    })
+                    .attr("cx", d => projection([d.lon, d.lat])[0])
+                    .attr("cy", d => projection([d.lon, d.lat])[1])
                     .attr("r", 5)
                     .style("fill", "white")
                     .style("stroke", "gray")
                     .style("stroke-width", 0.25)
                     .style("opacity", 0.75)   
                     .append("title") //Simple tooltip
-                    .text(function(d) {
-                        return d.name;
-                    }); 
+                    .text(d => d.name); 
                         
         
                 updateWidth = function () {
