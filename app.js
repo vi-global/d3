@@ -9,7 +9,7 @@ function mapChart() {
     var scale = 1000;
     var fillColor = '#003154';
     var boardColor = '#00649e';
-    console.log(scale, width, height)
+
     var pinData = [
         {name: 'New YorK', lat: 40.71455, lon: -74.007124 },
         {name: 'Los Angeles',   lat: 34.05349, lon: -118.245319},
@@ -27,192 +27,99 @@ function mapChart() {
         .scale(scale)
         var path = d3.geoPath().projection(projection)
 
+        var svg  = selection.append('svg')
+        .attr('height', height)
+        .attr('width', width)
+
+        //Then define the drag behavior
+        var dragging = function(d) {
+
+            //Log out d3.event, so you can see all the goodies inside
+            //console.log(d3.event);
+
+            //Get the current (pre-dragging) translation offset
+            var offset = projection.translate();
+
+            //Augment the offset, following the mouse movement
+            offset[0] += d3.event.dx;
+            offset[1] += d3.event.dy;
+
+            //Update projection with new offset
+            projection.translate(offset);
+
+            //Update all paths and circles
+            svg.selectAll("path")
+                .attr("d", path);
+
+            svg.selectAll("circle")
+                .attr("cx", function(d) {
+                    return projection([d.lon, d.lat])[0];
+                })
+                .attr("cy", function(d) {
+                    return projection([d.lon, d.lat])[1];
+                });
+
+        }
+
+        var drag = d3.drag().on("drag", dragging);
+
         d3.json("us-states.json")
 			.then(mapData => {
 				var features = topojson.feature(mapData, mapData.objects.states).features
 
-                selection.each(function (data) {
+                //Create a container in which all pan-able elements will live
+                var map = svg.append("g")
+                    .attr("id", "map")
+                    .call(drag);  //Bind the dragging behavior
+                        
+                map.append("g")
+                    .selectAll("path")
+                    .data(features)
+                    .enter()
+                    .append("path")
+                    .attr("fill", fillColor)
+                    .attr("d", path)
+                    .style("stroke", boardColor)
+                    .style("stroke-width", 0.5)
+                    //.on("click", clicked)
+
+                map.selectAll("circle")
+                    .data(pinData)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d) {
+                    return projection([d.lon, d.lat])[0];
+                    })
+                    .attr("cy", function(d) {
+                    return projection([d.lon, d.lat])[1];
+                    })
+                    .attr("r", 5)
+                    .style("fill", "white")
+                    .style("stroke", "gray")
+                    .style("stroke-width", 0.25)
+                    .style("opacity", 0.75)   
+                    .append("title") //Simple tooltip
+                    .text(function(d) {
+                        return d.name;
+                    }); 
+                        
+        
+                updateWidth = function () {
+                    // use width to make any changes
+                    // chart.scale(width * 4 / 3)
+
+                    // projection = d3.geoAlbersUsa()
+                    //     .scale(scale)
+                    //     .translate([width / 2, height / 2])
+                    // svg.transition().duration(1000).attr('width', width);
                     
-                    //var drawMap = function () {
-                        var svg = d3.select(this).append('svg')
-                            .attr('height', height)
-                            .attr('width', width)
-
-                        svg.append("g")
-                            .selectAll("path")
-                            .data(features)
-                            .enter()
-                            .append("path")
-                            .attr("fill", fillColor)
-                            .attr("d", path)
-                            .style("stroke", boardColor)
-                            .style("stroke-width", 0.5)
-                            //.on("click", clicked)
-
-                        svg.selectAll("circle")
-                            .data(pinData)
-                            .enter()
-                            .append("circle")
-                            .attr("cx", function(d) {
-                            return projection([d.lon, d.lat])[0];
-                            })
-                            .attr("cy", function(d) {
-                            return projection([d.lon, d.lat])[1];
-                            })
-                            .attr("r", 5)
-                            .style("fill", "white")
-                            .style("stroke", "gray")
-                            .style("stroke-width", 0.25)
-                            .style("opacity", 0.75)   
-                            .append("title") //Simple tooltip
-                            .text(function(d) {
-                                return d.name;
-                            }); 
-                        
-                            createPanButtons(svg)
-                    //}
-        
-                    updateWidth = function () {
-                        // use width to make any changes
-                        chart.scale(width * 4 / 3)
-                        console.log(scale, width, height)
-                        projection = d3.geoAlbersUsa()
-                            .scale(scale)
-                            .translate([width / 2, height / 2])
-                        svg.transition().duration(1000).attr('width', width);
-                        
-                    }
-        
-                    updateData = function () {
-                        // use D3 update pattern with data
-                    }
-                });
+                }
+    
+                updateData = function () {
+                    // use D3 update pattern with data
+                }
 			})
 
-        var createPanButtons = function(svg) {
-
-            //Create the clickable groups
-
-            //North
-            var north = svg.append("g")
-                .attr("class", "pan")	//All share the 'pan' class
-                .attr("id", "north");	//The ID will tell us which direction to head
-
-            north.append("rect")
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("width", width)
-                .attr("height", 30);
-
-            north.append("text")
-                .attr("class", "arrow")
-                .attr("x", width/2)
-                .attr("y", 20)
-                .html("&uarr;");
-            
-            //South
-            var south = svg.append("g")
-                .attr("class", "pan")
-                .attr("id", "south");
-
-            south.append("rect")
-                .attr("x", 0)
-                .attr("y", height - 30)
-                .attr("width", width)
-                .attr("height", 30);
-
-            south.append("text")
-            .attr("class", "arrow")
-            .attr("x", width/2)
-                .attr("y", height - 10)
-                .html("&darr;");
-
-            //West
-            var west = svg.append("g")
-                .attr("class", "pan")
-                .attr("id", "west");
-
-            west.append("rect")
-                .attr("x", 0)
-                .attr("y", 30)
-                .attr("width", 30)
-                .attr("height", height - 60);
-
-            west.append("text")
-            .attr("class", "arrow")
-            .attr("x", 10)
-                .attr("y", height/2)
-                .html("&larr;");
-
-            //East
-            var east = svg.append("g")
-                .attr("class", "pan")
-                .attr("id", "east");
-
-            east.append("rect")
-                .attr("x", width - 30)
-                .attr("y", 30)
-                .attr("width", 30)
-                .attr("height", height - 60);
-
-            east.append("text")
-            .attr("class", "arrow")
-            .attr("x", width - 20)
-                .attr("y", height/2)
-                .html("&rarr;");
-
-            //Panning interaction
-
-            d3.selectAll(".pan")
-                .on("click", function() {
-                    
-                    //Get current translation offset
-                    var offset = projection.translate();
-
-                    //Set how much to move on each click
-                    var moveAmount = 50;
-                    
-                    //Which way are we headed?
-                    var direction = d3.select(this).attr("id");
-
-                    //Modify the offset, depending on the direction
-                    switch (direction) {
-                        case "north":
-                            offset[1] += moveAmount;  //Increase y offset
-                            break;
-                        case "south":
-                            offset[1] -= moveAmount;  //Decrease y offset
-                            break;
-                        case "west":
-                            offset[0] += moveAmount;  //Increase x offset
-                            break;
-                        case "east":
-                            offset[0] -= moveAmount;  //Decrease x offset
-                            break;
-                        default:
-                            break;
-                    }
-
-                    //Update projection with new offset
-                    projection.translate(offset);
-
-                    //Update all paths and circles
-                    svg.selectAll("path")
-                        .transition()
-                        .attr("d", path);
-
-                    svg.selectAll("circle")
-                    .transition()
-                        .attr("cx", function(d) {
-                            return projection([d.lon, d.lat])[0];
-                        })
-                        .attr("cy", function(d) {
-                            return projection([d.lon, d.lat])[1];
-                        });
-
-                });
-
-        };
     }
 
     chart.data = function (value) {
@@ -260,10 +167,8 @@ function mapChart() {
 
 var milesRun = [2, 5, 4, 1, 2, 6, 5];
 
-var usChart = mapChart();
-    d3.select('#map')
-        .datum(milesRun)
-        .call(usChart);
-;
+var usChart = mapChart().data(milesRun)
+d3.select('#map').call(usChart)
 
-d3.select('#btn').on('click', () => usChart.width(700))
+
+d3.select('#btn').on('click', () => usChart.fillColor('red'))
