@@ -4,27 +4,48 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css" />
     <title>Document</title>
 </head>
+
 <body>
+    <select>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+    </select>
+    <div class="flex-container" data-category="a">
+        <div class="panel panel-default flex-fill-width blue-theme">
+            <div class="panel-heading">
+                <div>
+                    <h3 class="panel-title">Distribution of Students</h3>
+                    <div class="panel-filter"><strong>2021</strong></div>
+                </div>
+                <div class="matrix-controls">
+                    <span>
+                        <input type="radio" name="matrix-category" id="category-a" value="a" checked="checked">
+                        <label for="category-a">By City</label>
+                        <input type="radio" name="matrix-category" id="category-b" value="b">
+                        <label for="category-b">By Profession</label>
+                    </span>
+                    <span>
+                        <input type="radio" name="matrix-category" id="category-c" value="c">
+                        <label for="category-c">View All</label>
+                    </span>
+                </div>
+            </div>
+            <div class="matrixes">
+            </div>
+        </div>
+        <div class="cycle-availability-summary">
+            <button id="btn">Change</button>
+             <div id="map"></div>
+        </div>
+    </div>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.2.8/d3.min.js" integrity="sha512-O/Zc+vHUWRQDWuCQqgu8e7BLwYMx6pxg1+L+pp1VG/mzS7BHfzzAUP9OQzbASjTeeTyo8RQTRy5nS8bJ1f2FHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.1/d3.min.js" integrity="sha512-1e0JvdNhUkvFbAURPPlFKcX0mWu/b6GT9e0uve7BW4MFxJ15q4ZCd/Llz+B7/oh+qhw7/l6Q1ObPt6aAuR01+Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        var milesRun = [2, 5, 4, 1, 2, 6, 5];
- 
-        d3.select('body').append('svg')
-            .attr('height', 300)
-            .attr('width', 800)
-            .selectAll('rect')
-                .data(milesRun)
-                .enter()
-                .append('rect')
-                .attr('y', function (d, i) { return i * 40 })
-                .attr('height', 35)
-                .attr('x', 0)
-                .attr('width', function (d) { return d*100})
-                .style('fill', 'steelblue');
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha512-4UKI/XKm3xrvJ6pZS5oTRvIQGIzZFoXR71rRBb1y2N+PbwAsKa5tPl2J6WvbEvwN3TxQCm8hMzsl/pO+82iRlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="app.js"></script>
 
 </body>
 </html>

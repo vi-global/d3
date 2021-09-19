@@ -1,0 +1,14 @@
+#map {
+    width: 420px;
+    height: 263px;
+    background-color: #00649e;
+}
+
+.pan {
+    fill: #fff;
+    opacity: 0.7;
+}
+
+.arrow {
+    fill: #f00;
+}
