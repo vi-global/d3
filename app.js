@@ -166,7 +166,7 @@ function mapChart() {
 var milesRun = [2, 5, 4, 1, 2, 6, 5];
 
 var usChart = mapChart().data(milesRun)
-d3.select('#map').call(usChart)
+d3.select('#usmap').call(usChart)
 
 
 d3.select('#btn').on('click', () => usChart.fillColor('red'))
