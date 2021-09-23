@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:300,400,500,700');
+
+body {
+    font-family: Roboto;
+}
+
 #usmap {
     width: 420px;
     height: 263px;
@@ -11,4 +17,111 @@
 
 .arrow {
     fill: #f00;
+}
+
+.panel-container {
+    display: flex;
+    overflow: hidden;
+}
+
+.matrix-container {
+    color: #fff;
+    background-color: #00649e;
+    height: 270px;
+    border: none;
+    border-radius: 6px 0 0 6px;
+    padding: 15px;
+    margin-bottom: 18px;
+    flex-grow: 1;
+    min-width: 1%;
+    box-shadow: 0 5px 15px 0 rgb(0 0 0 / 10%);
+}
+
+.panel-heading {
+    color: inherit;
+    background-color: inherit;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: none;
+    border-color: #e5e5e5;
+    transition: all .2s ease-in-out;
+    padding: 8px;
+    border-top-right-radius: 1px;
+    border-top-left-radius: 1px;
+}
+
+.panel-title {
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 0;
+    font-family: "Roboto Condensed";
+    font-weight: 600;
+    letter-spacing: .5px;
+    margin-bottom: 6px;
+    margin-top: 0;
+    color: inherit;
+}
+
+.panel-filter {
+    font-size: 16px;
+    color: #fff;
+    opacity: .6;
+}
+
+.matrix-controls span {
+    border: 1px solid #4d93bb;
+    border-radius: 4px;
+    padding: 8px 1px;
+    margin: 0 0 0 5px;
+}
+
+.matrix-controls input[type=radio] {
+    opacity: 0;
+    width: 0;
+}
+
+.matrix-controls span:first-child input[type=radio]+label {
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.matrix-controls input[type=radio]:checked+label {
+    font-size: 12px;
+    font-weight: bold;
+    background: #fff;
+    border-radius: 4px;
+    color: #00649e;
+}
+
+.matrix-controls input[type=radio]+label {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: condensed;
+    display: inline-block;
+    padding: 4px 9px;
+    color: #b3d1e2;
+}
+
+.matrix-controls input[type=radio]+label {
+    font-stretch: condensed;
+    display: inline-block;
+    padding: 4px 9px;
+}
+
+.matrix-controls span:last-child {
+    padding: 8px 4px 8px 1px;
+}
+
+.matrix-controls span:last-child input[type=radio]+label {
+    color: #fff;
+    padding: 4px 15px;
+    cursor: pointer;
+}
+
+.matrix-controls span:last-child input[type=radio]:checked+label {
+    color: #00649e;
+    cursor: pointer;
 }

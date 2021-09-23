@@ -4,24 +4,25 @@ function mapChart() {
     // All options that should be accessible to caller
     var data = [];
     //975*610=1300, width/scale.ratio = 0.75, width/height.ratio = 1.6
-    var width = 420;
-    var height = 263;
-    var scale = 550;
-    var fillColor = '#003154';
-    var strokeColor = '#00649e';
+    var opts = {
+        width: 420,
+        height: 263,
+        scale: 550,
+        fillColor: '#003154',
+        strokeColor: '#00649e'
+    }
 
     var updateData;
-    var updateWidth;
 
     function chart(selection){
         var projection = d3.geoAlbersUsa()
-            .translate([width / 2, height / 2])
-            .scale(scale)
+            .translate([this.width / 2, this.height / 2])
+            .scale(this.scale)
         var path = d3.geoPath()
             .projection(projection)
         var svg  = selection.append('svg')
-            .attr('height', height)
-            .attr('width', width)
+            .attr('height', this.height)
+            .attr('width', this.width)
 
         //Then define the drag behavior
         var zooming = function(d) {
@@ -62,7 +63,7 @@ function mapChart() {
                     .attr("id", "map")
                     .call(zoom) //Bind the zoom behavior
                     .call(zoom.transform, d3.zoomIdentity //Then apply the initial transform
-                        .translate(width/2, height/2)
+                        .translate(this.width/2, this.height/2)
                         .scale(0.25)
                         .translate(-center[0], -center[1]));
                     
@@ -98,21 +99,7 @@ function mapChart() {
                     .append("title") //Simple tooltip
                     .text(d => d.name); 
                         
-        
-                updateWidth = function () {
-                    // use width to make any changes
-                    // chart.scale(width * 4 / 3)
-
-                    // projection = d3.geoAlbersUsa()
-                    //     .scale(scale)
-                    //     .translate([width / 2, height / 2])
-                    // svg.transition().duration(1000).attr('width', width);
-                    
-                }
-    
                 updateData = function () {
-                    // use D3 update pattern with data
-                    
                     map.selectAll("circle")
                     //.transition().duration(500)
                     .remove()
@@ -134,6 +121,20 @@ function mapChart() {
 
     }
 
+    for (var key in opts) {
+        chart[key] = etter(key, chart).bind(opts);
+    }
+    
+    function etter(option, key) {
+
+        return function(_) {
+            if (!arguments.length) return this[option];
+            this[option] = _;
+  
+            return key;
+        }
+    }
+
     chart.data = function (value) {
         if (!arguments.length) return data;
         data = value;
@@ -141,37 +142,35 @@ function mapChart() {
         return chart;
     }
 
-    chart.width = function(value) {
-        if (!arguments.length) return width;
-        width = value;
-        if (typeof updateWidth === 'function') updateWidth();
-        return chart;
-    };
+    // chart.width = function(value) {
+    //     if (!arguments.length) return width;
+    //     width = value;
+    //     return chart;
+    // };
 
-    chart.scale = function(value) {
-        if (!arguments.length) return scale;
-        scale = value;
-        if (typeof updateScale === 'function') updateScale();
-        return chart;
-    };
+    // chart.scale = function(value) {
+    //     if (!arguments.length) return scale;
+    //     scale = value;
+    //     return chart;
+    // };
 
-    chart.height = function(value) {
-        if (!arguments.length) return height;
-        height = value;
-        return chart;
-    };
+    // chart.height = function(value) {
+    //     if (!arguments.length) return height;
+    //     height = value;
+    //     return chart;
+    // };
 
-    chart.strokeColor = function(value) {
-        if (!arguments.length) return strokeColor;
-        strokeColor = value;
-        return chart;
-    };
+    // chart.strokeColor = function(value) {
+    //     if (!arguments.length) return strokeColor;
+    //     strokeColor = value;
+    //     return chart;
+    // };
 
-    chart.fillColor = function(value) {
-        if (!arguments.length) return fillColor;
-        fillColor = value;
-        return chart;
-    };
+    // chart.fillColor = function(value) {
+    //     if (!arguments.length) return fillColor;
+    //     fillColor = value;
+    //     return chart;
+    // };
 
     return chart;
 }	
@@ -179,6 +178,7 @@ function mapChart() {
 
 var pinData1 = [
     {name: 'New YorK', lat: 40.71455, lon: -74.007124 },
+    {name: 'Seattle', lat: 47.60356, lon: -122.329439 },
     {name: 'Los Angeles',   lat: 34.05349, lon: -118.245319}    
 ];
 var pinData2 = [
@@ -187,7 +187,8 @@ var pinData2 = [
     {name: 'Philadelphia',  lat: 39.95228, lon: -75.162454}
 ]
 
-var usChart = mapChart().data(pinData1)
+var usChart = mapChart().data(pinData1).fillColor('#ff0')
+console.log(usChart.prototype)
 d3.select('#usmap').call(usChart)
 
 d3.select('#btn').on('click', () => usChart.data(pinData2))
