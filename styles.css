@@ -70,6 +70,13 @@ body {
     opacity: .6;
 }
 
+.matrixes {
+    margin: 10px -5px 0 -5px;
+
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+}
 .matrix-controls span {
     border: 1px solid #4d93bb;
     border-radius: 4px;
@@ -124,4 +131,37 @@ body {
 .matrix-controls span:last-child input[type=radio]:checked+label {
     color: #00649e;
     cursor: pointer;
+}
+
+.matrix {
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.grid {
+    width: 122px;
+    line-height: 1px;
+    direction: rtl;
+}
+.dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    background: #000;
+    margin-right: 6px;
+    margin-bottom: 5px;
+    transition: background .4s linear;
+}
+.grid .yes {
+    background: #fff;
+}
+.grid .no {
+    background: #3383b1;
+}
+
+[data-category=a] .b, .dashboard-panel-container [data-category=b] .a {
+    display: none;
+    transition: opacity 1s ease-out;
+    opacity: 0;
 }

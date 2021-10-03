@@ -229,8 +229,8 @@ function drawMatrix(id, chartData) {
         .attr('class', d => d.lat !== undefined ? 'matrix a' : 'matrix b')
         .attr('id', d => d.lat !== undefined ? `m_gct${d.id}` : null)
         .html(matrixHtml)
-        .on('mouseover', module.mouseover)
-        .on('mouseout', module.mouseout)
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout)
 }
 
 var chartData = {"Data":[{"Colors":["#003154","#00649e","#ffffff"],"Data":[{"id":"15","name":"New York","abbr":"NY","value":58.0,"lat":40.71,"lon":-74.0},{"id":"12","name":"Salt Lake","abbr":"SL","value":24.0,"lat":40.77,"lon":-111.89},{"id":"19","name":"Dallas","abbr":"DAL","value":22.0,"lat":32.85,"lon":-96.85},{"id":"17","name":"Seattle","abbr":"SEA","value":32.0,"lat":47.45,"lon":-122.3},{"id":"25","name":"Atlanta","abbr":"ATL","value":20.0,"lat":33.65,"lon":-84.42},{"id":"16","name":"Chicago","abbr":"CHI","value":36.0,"lat":41.9,"lon":-87.65},{"id":"18","name":"Los Angeles","abbr":"LA","value":27.0,"lat":33.93,"lon":-118.4},{"id":"26","name":"San Francisco","abbr":"SFO","value":16.0,"lat":37.62,"lon":-122.38},{"id":"28","name":"Yakutat","abbr":"YAK","value":7.0,"lat":59.52,"lon":-139.67},{"id":"29","name":"Denver","abbr":"DEN","value":2.0,"lat":39.75,"lon":-104.87},{"id":"27","name":"Phoenix","abbr":"PHX","value":12.0,"lat":33.43,"lon":-112.02}]},{"Colors":["#003154","#00649e","#ffffff"],"Data":[{"name":"Criminal","value":41.0},{"name":"Tax","value":25.0},{"name":"Corporate","value":17.0},{"name":"Real Estate","value":36.0},{"name":"Commercial","value":78.0},{"name":"Finance","value":29.0},{"name":"Litigation","value":8.0}]}]}
