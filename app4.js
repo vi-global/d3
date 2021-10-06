@@ -233,6 +233,59 @@ function drawMatrix(id, chartData) {
         .on('mouseout', mouseout)
 }
 
+function globalChart() {
+    var width = 600,
+    height = 500,
+    sens = 0.25,
+    focused,
+    projection = d3.geoOrthographic()
+    .scale(245)
+    .rotate([0, 0])
+    .translate([width / 2, height / 2])
+    .clipAngle(90);
+
+    function chart(selection){
+        var path = d3.geoPath()
+        .projection(projection);
+
+        var svg  = selection.append('svg')
+        .attr('height', height)
+        .attr('width', width)
+
+        //Adding water
+
+        svg.append("path")
+        .datum({type: "Sphere"})
+        .attr("class", "water")
+        .attr("d", path);        
+
+        d3.json("world-110m.json")
+        .then(mapData => {
+            var countryById = {}
+            var countries = topojson.feature(mapData, mapData.objects.countries).features
+
+            //Drawing countries on the globe
+            var world = svg.selectAll("path.land")
+            .data(countries)
+            .enter().append("path")
+            .attr("class", "land")
+            .attr("d", path)
+
+            //Drag event
+            // .call(d3.behavior.drag()
+            // .origin(function() { var r = projection.rotate(); return {x: r[0] / sens, y: -r[1] / sens}; })
+            // .on("drag", function() {
+            //     var rotate = projection.rotate();
+            //     projection.rotate([d3.event.x * sens, -d3.event.y * sens, rotate[2]]);
+            //     svg.selectAll("path.land").attr("d", path);
+            //     svg.selectAll(".focused").classed("focused", focused = false);
+            // }))
+        })
+    }
+
+    return chart;
+}
+
 var chartData = {"Data":[{"Colors":["#003154","#00649e","#ffffff"],"Data":[{"id":"15","name":"New York","abbr":"NY","value":58.0,"lat":40.71,"lon":-74.0},{"id":"12","name":"Salt Lake","abbr":"SL","value":24.0,"lat":40.77,"lon":-111.89},{"id":"19","name":"Dallas","abbr":"DAL","value":22.0,"lat":32.85,"lon":-96.85},{"id":"17","name":"Seattle","abbr":"SEA","value":32.0,"lat":47.45,"lon":-122.3},{"id":"25","name":"Atlanta","abbr":"ATL","value":20.0,"lat":33.65,"lon":-84.42},{"id":"16","name":"Chicago","abbr":"CHI","value":36.0,"lat":41.9,"lon":-87.65},{"id":"18","name":"Los Angeles","abbr":"LA","value":27.0,"lat":33.93,"lon":-118.4},{"id":"26","name":"San Francisco","abbr":"SFO","value":16.0,"lat":37.62,"lon":-122.38},{"id":"28","name":"Yakutat","abbr":"YAK","value":7.0,"lat":59.52,"lon":-139.67},{"id":"29","name":"Denver","abbr":"DEN","value":2.0,"lat":39.75,"lon":-104.87},{"id":"27","name":"Phoenix","abbr":"PHX","value":12.0,"lat":33.43,"lon":-112.02}]},{"Colors":["#003154","#00649e","#ffffff"],"Data":[{"name":"Criminal","value":41.0},{"name":"Tax","value":25.0},{"name":"Corporate","value":17.0},{"name":"Real Estate","value":36.0},{"name":"Commercial","value":78.0},{"name":"Finance","value":29.0},{"name":"Litigation","value":8.0}]}]}
 var pinData1 = [
     {name: 'New YorK', lat: 40.71455, lon: -74.007124 },
@@ -259,3 +312,6 @@ drawPin2()
 
 drawMatrix('panel', chartData)
 //d3.select('#btn').on('click', () => usChart.data(pinData2))
+
+var globalChart = globalChart()
+d3.select('#globalmap').call(globalChart)
