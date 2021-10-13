@@ -18,11 +18,42 @@
 <body>
     <div id="mymap"></div>
     <script>
+        //----- Add Foody Market point
+        var coords = [-79.32268946851717, 43.81519696505743];
+        var point = new ol.geom.Point(ol.proj.transform(coords, 'EPSG:4326', 'EPSG:3857'));
+
+        var stroke = new ol.style.Stroke({color: 'black', width: 2});
+        var goldFill = new ol.style.Fill({color: 'gold'})
+
+        var squareStyle = new ol.style.Style({
+            image: new ol.style.RegularShape({
+                fill: goldFill,
+                stroke: stroke,
+                points: 4,
+                radius: 10,
+                angle: Math.PI / 4
+            })
+        })
+
+        var feature = new ol.Feature({
+            geometry: point
+        })
+        feature.setId('FoodyMarket');
+        feature.setStyle(squareStyle)
+
+        var myVectorSource = new ol.source.Vector({
+            features: [feature]
+        })
+
+        var myVectorLayer = new ol.layer.Vector({
+            source: myVectorSource
+        })
+        //------ Map
         var myLayer = new ol.layer.Tile({
             source: new ol.source.OSM()
         });
 
-        var myLayers = [myLayer];
+        var myLayers = [myLayer, myVectorLayer];
 
         var centerCoords = [-95, 45];
         var transCoords = ol.proj.transform(centerCoords, 'EPSG:4326', 'EPSG:3857');
