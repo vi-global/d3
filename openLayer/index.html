@@ -38,7 +38,7 @@
         var feature = new ol.Feature({
             geometry: point
         })
-        feature.setId('FoodyMarket');
+        feature.setId('Foody Market');
         feature.setStyle(squareStyle)
 
         var myVectorSource = new ol.source.Vector({
@@ -68,6 +68,12 @@
             layers: myLayers,
             view: myView
         });
+
+        map.on('click', function(evt){
+            map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+                alert(feature.getId())
+            })
+        })
     </script>
 </body>
 </html>
