@@ -18,7 +18,25 @@
 <body>
     <div id="mymap"></div>
     <script>
+        var myLayer = new ol.layer.Tile({
+            source: new ol.source.OSM()
+        });
+
+        var myLayers = [myLayer];
+
+        var centerCoords = [-95, 45];
+        var transCoords = ol.proj.transform(centerCoords, 'EPSG:4326', 'EPSG:3857');
         
+        var myView = new ol.View({
+            center: transCoords,
+            zoom: 3
+        });
+
+        var map = new ol.Map({
+            target: 'mymap',
+            layers: myLayers,
+            view: myView
+        });
     </script>
 </body>
 </html>
