@@ -14,6 +14,29 @@
 
 	function setupMap() {
 
+		var hackerCoords = ol.proj.transform([-79.32268946851717, 43.81519696505743], 'EPSG:4326', 'EPSG:3857')
+
+		var hackerFeature = new ol.Feature({
+			geometry: new ol.geom.Point(hackerCoords)
+		})
+
+		var hackerStyle = new ol.style.Style({
+			image: new ol.style.Icon({
+				src: 'hacker.png'
+			})
+		})
+
+		hackerFeature.setStyle(hackerStyle)
+
+		var vectorSource = new ol.source.Vector({
+			features: [hackerFeature]
+		})
+
+		var vectorLayer = new ol.layer.Vector({
+			source: vectorSource,
+			maxResolution: 4
+		})
+
 		var streetmapLayer = new ol.layer.Tile({
 			source: new ol.source.OSM()
 		});
@@ -25,10 +48,17 @@
         
         var map = new ol.Map({
     		target: 'map',
-    		layers: [streetmapLayer],
+    		layers: [streetmapLayer, vectorLayer],
     		view: myView
     	});
 
+        map.on('click', function(evt){
+            map.forEachFeatureAtPixel(evt.pixel, function(feature, layer){
+                if (feature) {
+					catchHacker();
+				}
+            })
+        })
 	}
 
 	function initializeTimer() {
