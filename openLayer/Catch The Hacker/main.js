@@ -49,7 +49,10 @@
         var map = new ol.Map({
     		target: 'map',
     		layers: [streetmapLayer, vectorLayer],
-    		view: myView
+    		view: myView,
+			controls: ol.control.defaults().extend(
+				[new ol.control.OverviewMap({})]
+			)
     	});
 
         map.on('click', function(evt){
