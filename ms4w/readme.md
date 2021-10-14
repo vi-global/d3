@@ -27,3 +27,15 @@
 * ogr2ogr --formats
 * ogr2ogr -where "continent = 'Europe'" europe.shp ne_50m_admin_0_countries.shp
 
+## Clipping Shapefiles
+* ogr2ogr 
+    -f GeoJSON
+    counties-clipped.json
+    build/cb_2014_us_county_20m.shp
+    -clipsrc -124.4096 32.5343 -114.1308 42.0095
+## Filtering Shape Files
+* ogr2ogr
+    -f GeoJSON
+    counties-clipped.json
+    build/cb_2014_us_county_20m.shp
+    -where "STATEFP='O6'"
