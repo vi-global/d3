@@ -1,0 +1,105 @@
+MAP
+    CONFIG "MS_ERRORFILE" "error.log"
+    DEBUG 5
+    NAME "continents"
+    STATUS ON
+    SIZE 1000 600
+    EXTENT -20037508.3428 30.9220807756 20037508.3428 11068715.6594
+    UNITS METERS
+    SHAPEPATH "data"
+    IMAGECOLOR 127 255 212
+	FONTSET "../etc/fonts.txt"
+
+	PROJECTION
+		"init=epsg:3857"
+	END
+	
+    LAYER
+        NAME "landmass"
+        TYPE POLYGON
+        STATUS DEFAULT
+        DATA "ne_50m_land/ne_50m_land.shp"
+        CLASS
+            STYLE
+                COLOR 100 100 100
+            END
+       	END
+       	
+       	PROJECTION
+       		"init=epsg:4326"
+        END
+    END # LAYER
+
+    LAYER
+        NAME "globalcountries"
+        TYPE POLYGON
+        STATUS DEFAULT
+        DATA "ne_50m_admin_0_countries/ne_50m_admin_0_countries.shp"
+		CLASS
+        	EXPRESSION ('[continent]' eq "North America")
+		    STYLE
+                OUTLINECOLOR 0 0 0
+		        COLOR 255 0 0
+		    END
+		END
+		CLASS
+			EXPRESSION ('[continent]' eq "South America")
+			STYLE
+                OUTLINECOLOR 0 0 0
+				COLOR 0 255 0
+			END
+		END
+		CLASS
+			NAME europe
+			EXPRESSION ('[continent]' eq "Europe")
+			STYLE
+                OUTLINECOLOR 0 0 0
+				COLOR 0 0 255
+			END
+		END
+		CLASS	
+			EXPRESSION ('[continent]' eq "Africa")
+			STYLE
+                OUTLINECOLOR 0 0 0
+				COLOR 255 255 0 
+			END
+		END
+		CLASS	
+			EXPRESSION ('[continent]' eq "Oceania")
+			STYLE
+                OUTLINECOLOR 0 0 0
+				COLOR 255 140 0 
+			END
+		END
+        CLASS 
+            STYLE
+                OUTLINECOLOR 0 0 0
+            END
+       	END
+       	PROJECTION
+       		"init=epsg:4326"
+        END
+    END # LAYER
+
+	LAYER
+        NAME "country_names"
+        TYPE POLYGON
+        STATUS DEFAULT
+        DATA "ne_50m_admin_0_countries/ne_50m_admin_0_countries.shp"
+        LABELITEM "name"
+		CLASS
+			LABEL
+				COLOR  0 0 0
+				FONT "sans"
+				TYPE truetype
+				SIZE 6
+				ANGLE AUTO
+				POSITION AUTO
+			END
+		END
+       	PROJECTION
+       		"init=epsg:4326"
+        END
+	END # LAYER
+	
+END # MAP
