@@ -39,3 +39,6 @@
     counties-clipped.json
     build/cb_2014_us_county_20m.shp
     -where "STATEFP='O6'"
+
+## Convert GeoJSON to topojson
+* topojson -o topo-counties.json counties.json
