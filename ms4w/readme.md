@@ -15,3 +15,9 @@
                             https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/physical/ne_50m_land.zip
 7. download country file from https://www.naturalearthdata.com/downloads/50m-cultural-vectors/
                             https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip
+
+## ogrinfo
+* ogrinfo ne_50m_admin_0_countries.shp
+* ogrinfo -so ne_50m_admin_0_countries.shp ne_50m_admin_0_countries
+* ogrinfo -sql "select distinct continent from ne_50m_admin_0_countries order by continent" ne_50m_admin_0_countries.shp
+* ogrinfo -sql "select * from ne_50m_admin_0_countries where NAME = 'France'" ne_50m_admin_0_countries.shp
