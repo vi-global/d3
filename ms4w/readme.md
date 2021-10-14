@@ -21,3 +21,9 @@
 * ogrinfo -so ne_50m_admin_0_countries.shp ne_50m_admin_0_countries
 * ogrinfo -sql "select distinct continent from ne_50m_admin_0_countries order by continent" ne_50m_admin_0_countries.shp
 * ogrinfo -sql "select * from ne_50m_admin_0_countries where NAME = 'France'" ne_50m_admin_0_countries.shp
+
+## ogr2ogr
+* ogr2ogr -f "GeoJSON" countries.json ne_50m_admin_0_countries.shp
+* ogr2ogr --formats
+* ogr2ogr -where "continent = 'Europe'" europe.shp ne_50m_admin_0_countries.shp
+
