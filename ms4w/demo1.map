@@ -1,0 +1,23 @@
+MAP
+    CONFIG "MS_ERRORFILE" "error.log"
+    DEBUG 5
+    NAME "demo"
+    STATUS ON
+    SIZE 600 400
+    EXTENT -180 -90 180 90
+    UNITS DD
+    SHAPEPATH "data"
+    IMAGECOLOR 255 255 255
+	
+    LAYER
+        NAME "globalcountries"
+        TYPE POLYGON
+        STATUS DEFAULT
+        DATA "ne_50m_land/ne_50m_land.shp"
+        CLASS
+            STYLE
+                OUTLINECOLOR 0 0 0
+            END
+       	END
+    END # LAYER
+END # MAP

@@ -11,3 +11,4 @@
     Allow from all
     </Directory>
 5. restart apache server
+6. download land file from https://www.naturalearthdata.com/downloads/50m-physical-vectors/
