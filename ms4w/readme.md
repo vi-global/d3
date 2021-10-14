@@ -12,3 +12,6 @@
     </Directory>
 5. restart apache server
 6. download land file from https://www.naturalearthdata.com/downloads/50m-physical-vectors/
+                            https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/physical/ne_50m_land.zip
+7. download country file from https://www.naturalearthdata.com/downloads/50m-cultural-vectors/
+                            https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip
