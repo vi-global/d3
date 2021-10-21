@@ -398,15 +398,16 @@ function globalChart() {
 
         //Adding water
 
-        svg.append("path")
-        .datum({type: "Sphere"})
-        .attr("class", "water")
-        .attr("d", path);        
+        // svg.append("path")
+        // .datum({type: "Sphere"})
+        // .attr("class", "water")
+        // .attr("d", path)
+        // //.call(drag);        
 
         var gpos0, o0;
 
         function dragstarted(){
-        
+            //console.log(d3.mouse(this))
             gpos0 = projection.invert(d3.mouse(this));
             o0 = projection.rotate();
         
@@ -466,6 +467,13 @@ function globalChart() {
             .translateExtent([[-800, -515], [825, 530]])
             .on("zoom", zooming);
 
+        svg.append("path")
+        .datum({type: "Sphere"})
+        .attr("class", "water")
+        .attr("d", path)
+        .call(drag)
+        .call(zoom)       
+
         d3.json("world-110m.json")
         .then(mapData => {
             var countryById = {}
@@ -477,10 +485,9 @@ function globalChart() {
             .enter().append("path")
             .attr("class", "land")
             .attr("d", path)
-
             .call(drag)
 
-            // .call(zoom) //Bind the zoom behavior
+            .call(zoom) //Bind the zoom behavior
             // .call(zoom.transform, d3.zoomIdentity //Then apply the initial transform
             //     .translate(width/2, height/2)
             //     .scale(0.25)
