@@ -146,12 +146,12 @@ function globalChart() {
 
     /**************end of math functions**********************/
 
-    var width = 600,
+    var width = 960,
     height = 500,
     sens = 0.25,
     focused,
     projection = d3.geoOrthographic()
-    .scale(245)
+    .scale(250)
     .rotate([0, 0])
     .translate([width / 2, height / 2])
     .clipAngle(90);
@@ -195,8 +195,8 @@ function globalChart() {
             if (o1) projection.rotate(o1);
         
             svg.selectAll(".point")
-                     .datum({type: "Point", coordinates: gpos1});
-          svg.selectAll("path").attr("d", path);
+                .datum({type: "Point", coordinates: gpos1});
+            svg.selectAll("path").attr("d", path);
         
         }
         
@@ -248,7 +248,7 @@ function globalChart() {
             .attr("d", path)
 
             svg.call(drag)
-            .call(zoom) //Bind the zoom behavior
+            //.call(zoom) //Bind the zoom behavior
             // .call(zoom.transform, d3.zoomIdentity //Then apply the initial transform
             //     .translate(width/2, height/2)
             //     .scale(0.25)
