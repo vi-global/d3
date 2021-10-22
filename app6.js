@@ -152,6 +152,7 @@
         var projection = d3.geoOrthographic()
             .scale(250)
             .translate([width / 2, height / 2])
+            .rotate([105.03, -42.37])
             .clipAngle(90);
         
         var path = d3.geoPath()
@@ -174,7 +175,7 @@
             //New offset array
             var offset = [d3.event.transform.x, d3.event.transform.y];
             //Calculate new scale
-            var newScale = d3.event.transform.k * 500;
+            var newScale = d3.event.transform.k * 300;
             //Update projection with new offset and scale
             projection.translate(offset) 
                 .scale(newScale)           
@@ -188,7 +189,7 @@
 
         var zoom = d3.zoom()
             .scaleExtent([0.25, 2.0])
-            .translateExtent([[-800, -515], [825, 530]])
+            .translateExtent([[-width / 2, -height / 2], [width / 2, height / 2]])
             .on("zoom", zooming);
 
 
